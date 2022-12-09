@@ -1,9 +1,16 @@
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import {StyleSheet, TouchableOpacity, Image,} from 'react-native';
 import PhoneSVG from '../components/svgIcons/PhoneSVG';
-import { Text, View } from '../components/Themed';
+import {Text, View} from '../components/Themed';
 import {UserSVG} from "../components/svgIcons/UserSVG";
+import {Hands} from "../assets/images/hands";
+import React from "react";
+import { useAppSelector} from "../bll/store";
+import { Hand } from '../components/Hand';
 
-export const GameScreen=() =>{
+export const GameScreen = () => {
+
+    const userHand = useAppSelector(state => state.app.userHand)
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -13,10 +20,11 @@ export const GameScreen=() =>{
             </View>
             <View style={styles.block}>
                 <View style={styles.phoneImg}>
-                    <PhoneSVG />
+                    <PhoneSVG/>
                 </View>
                 <View style={styles.field}>
-                    <Text>field</Text>
+                    <Image source={{uri: Hands.rock}} style={styles.image}/>
+                    <Image source={{uri: userHand?.img}} style={styles.image}/>
                 </View>
                 <View style={styles.userBlock}>
                     <View style={styles.userName}>
@@ -24,15 +32,18 @@ export const GameScreen=() =>{
                         <Text style={styles.user}>player</Text>
                     </View>
                     <View style={styles.panel}>
-                        <Text>panel</Text>
+                        <Hand hand={'rock'}/>
+                        <Hand hand={'scissors'}/>
+                        <Hand hand={'paper'}/>
+                        <Hand hand={'lizard'}/>
+                        <Hand hand={'spock'}/>
+                        <Hand hand={'chack'}/>
                     </View>
                     <TouchableOpacity style={styles.buttonGame}>
                         <Text style={styles.buttonText}>START</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-
-
         </View>
     );
 }
@@ -48,78 +59,82 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     header: {
-        alignItems:'center',
-        marginTop:'5%',
+        alignItems: 'center',
+        marginTop: '5%',
         width: '80%',
-        height:'10%',
-        display:'flex',
-        justifyContent:'space-between',
+        height: '10%',
+        display: 'flex',
+        justifyContent: 'space-between',
     },
-    block:{
-       display:'flex',
-        width:'90%',
-        height:'85%',
-        justifyContent:'center',
-        alignItems:'center',
+    block: {
+        display: 'flex',
+        width: '90%',
+        height: '85%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    field:{
-        width:'90%',
-        height:'50%',
-        borderRadius:30,
-        backgroundColor:'rgba(248,178,12,0.82)',
-        display:'flex',
-        justifyContent:'space-between',
-        alignItems:'center'
+    field: {
+        width: '90%',
+        height: '50%',
+        borderRadius: 30,
+        backgroundColor: 'rgba(248,178,12,0.82)',
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
-    phoneImg:{
-        width:'90%',
-        height:'10%',
-        alignItems:'center',
+    phoneImg: {
+        width: '90%',
+        height: '10%',
+        alignItems: 'center',
     },
-    userBlock:{
-        width:'90%',
-        height:'40%',
-        display:'flex',
-        alignItems:'center',
+    userBlock: {
+        width: '90%',
+        height: '40%',
+        display: 'flex',
+        alignItems: 'center',
     },
-    panel:{
-        width:'100%',
-        height:'50%',
-        borderStyle:'solid',
-        borderColor:'#d59102',
-        borderWidth:2,
-        borderRadius:10,
-        display:'flex',
-        flexDirection:"row",
-        justifyContent:'space-around',
-        alignItems:'center'
+    panel: {
+        width: '100%',
+        height: '50%',
+        borderStyle: 'solid',
+        borderColor: '#d59102',
+        borderWidth: 2,
+        borderRadius: 10,
+        display: 'flex',
+        flexDirection: "row",
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
-    userName:{
-        width:'100%',
-        height:'20%',
-        display:'flex',
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center',
+    userName: {
+        width: '100%',
+        height: '20%',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    buttonGame:{
-        width:'90%',
-        height:'20%',
-        margin:10,
-        borderRadius:30,
-        backgroundColor:'rgb(115,243,35)',
-        alignItems:'center',
-        display:'flex',
-        justifyContent:'space-around',
+    buttonGame: {
+        width: '90%',
+        height: '20%',
+        margin: 10,
+        borderRadius: 30,
+        backgroundColor: 'rgb(115,243,35)',
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'space-around',
     },
-    buttonText:{
+    buttonText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color:'#fff'
+        color: '#fff'
     },
-    user:{
+    user: {
         fontSize: 16,
         fontWeight: 'bold',
-        marginLeft:10
+        marginLeft: 10
+    },
+    image: {
+        width: 100,
+        height: 100,
     },
 });
