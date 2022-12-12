@@ -2,10 +2,10 @@ import {StyleSheet, TouchableOpacity, Image,} from 'react-native';
 import PhoneSVG from '../components/svgIcons/PhoneSVG';
 import {Text, View} from '../components/Themed';
 import {UserSVG} from "../components/svgIcons/UserSVG";
-import React, {useState} from "react";
+import React from "react";
 import {useAppDispatch, useAppSelector} from "../bll/store";
 import {Hand} from '../components/Hand';
-import {setPhoneHand} from "../bll/appReducer";
+import {setPhoneHand, setWinner} from "../bll/appReducer";
 import { randomHand } from '../common/RandomHand';
 import {getWinner} from "../common/getWinner";
 
@@ -15,13 +15,16 @@ export const GameScreen = () => {
     const phoneHand = useAppSelector(state => state.app.phoneHand)
     const dispatch = useAppDispatch()
     const gameMode = useAppSelector(state => state.app.gameMode)
-    const [winner,setWinner]=useState<null | string>(null)
+    const winner=useAppSelector(state => state.app.winner)
 
-    const startButtonHandler =  () => {
+    const startButtonHandler =   () => {
         const handPhoneNow = randomHand({gameMode})
         dispatch(setPhoneHand({hand: handPhoneNow}))
-        const result = getWinner()
-        setTimeout(() => setWinner(result), 500)
+        let result=''
+        if(userHand){
+            result = getWinner({userHand:userHand.name,phoneHand:handPhoneNow})
+            dispatch(setWinner({winner:result}))
+        }
     }
 
     return (
@@ -54,7 +57,7 @@ export const GameScreen = () => {
                         <Hand hand={'paper'}/>
                         <Hand hand={'lizard'}/>
                         <Hand hand={'spock'}/>
-                        <Hand hand={'chack'}/>
+                        <Hand hand={'chuck'}/>
                     </View>
                     <TouchableOpacity style={styles.buttonGame} onPress={startButtonHandler}>
                         <Text style={styles.buttonText}>START</Text>

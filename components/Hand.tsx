@@ -22,9 +22,9 @@ export const Hand = ({hand}: HandPropsType) => {
     }
 
     return (
-        <View style={(gameMode === 'normal' && (hand === 'chack' || hand === 'lizard' || hand === 'spock'))
+        <View style={(gameMode === 'normal' && (hand === 'chuck' || hand === 'lizard' || hand === 'spock'))
             ? {display: 'none'}
-            : (gameMode === 'geek' && hand === 'chack')
+            : (gameMode === 'geek' && hand === 'chuck')
                 ? {display: 'none'}
                 : {display: 'flex'}
         }>

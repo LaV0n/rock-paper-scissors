@@ -28,7 +28,7 @@ export function randomHand({gameMode}:RandomHandType):HandType {
         case 5:
             return 'spock'
         case 6:
-            return 'chack'
+            return 'chuck'
         default:
             return 'rock'
     }

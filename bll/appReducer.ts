@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Hands} from "../assets/images/hands";
 
 export type GameModeType= 'normal' | 'geek' | 'cheat'
-export type HandType='rock' | 'scissors' | 'paper' | 'lizard' | 'spock' | 'chack'
+export type HandType='rock' | 'scissors' | 'paper' | 'lizard' | 'spock' | 'chuck'
 export type HandDataType={
     name:HandType,
     img:string
@@ -13,11 +13,12 @@ type InitialStateType={
     hands:HandDataType []
     userHand:HandDataType | null
     phoneHand:HandDataType | null
+    winner:string
 }
 
 const initialState:InitialStateType = {
     userName: 'Player',
-    gameMode:'geek',
+    gameMode:'normal',
     hands:[
         {
             name:'rock',
@@ -40,12 +41,13 @@ const initialState:InitialStateType = {
             img:Hands.spock
         },
         {
-            name:'chack',
+            name:'chuck',
             img:Hands.chack
         },
     ],
     userHand:null,
-    phoneHand:null
+    phoneHand:null,
+    winner:''
 }
 
 const slice = createSlice({
@@ -57,21 +59,26 @@ const slice = createSlice({
             if(elem){
                 state.userHand=elem
                 state.phoneHand=null
+                state.winner=''
             }
         },
         setGameMode(state,action:PayloadAction<{mode:GameModeType}>){
             state.gameMode=action.payload.mode
             state.userHand=null
             state.phoneHand=null
+            state.winner=''
         },
         setPhoneHand(state,action:PayloadAction<{hand:HandType}>){
             const elem=state.hands.find(h=>h.name===action.payload.hand)
             if(elem){
                 state.phoneHand=elem
             }
+        },
+        setWinner(state,action:PayloadAction<{winner:string}>){
+            state.winner=action.payload.winner
         }
     }
 })
 
 export const appReducer = slice.reducer
-export const {setUserHand,setGameMode,setPhoneHand}=slice.actions
+export const {setUserHand,setGameMode,setPhoneHand,setWinner}=slice.actions
