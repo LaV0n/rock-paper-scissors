@@ -57,9 +57,13 @@ const slice = createSlice({
             if(elem){
                 state.userHand=elem
             }
+        },
+        setGameMode(state,action:PayloadAction<{mode:GameModeType}>){
+            state.gameMode=action.payload.mode
+            state.userHand=null
         }
     }
 })
 
 export const appReducer = slice.reducer
-export const {setUserHand}=slice.actions
+export const {setUserHand,setGameMode}=slice.actions
