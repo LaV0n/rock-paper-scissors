@@ -2,14 +2,27 @@ import {StyleSheet, TouchableOpacity, Image,} from 'react-native';
 import PhoneSVG from '../components/svgIcons/PhoneSVG';
 import {Text, View} from '../components/Themed';
 import {UserSVG} from "../components/svgIcons/UserSVG";
-import {Hands} from "../assets/images/hands";
-import React from "react";
-import { useAppSelector} from "../bll/store";
-import { Hand } from '../components/Hand';
+import React, {useState} from "react";
+import {useAppDispatch, useAppSelector} from "../bll/store";
+import {Hand} from '../components/Hand';
+import {setPhoneHand} from "../bll/appReducer";
+import { randomHand } from '../common/RandomHand';
+import {getWinner} from "../common/getWinner";
 
 export const GameScreen = () => {
 
     const userHand = useAppSelector(state => state.app.userHand)
+    const phoneHand = useAppSelector(state => state.app.phoneHand)
+    const dispatch = useAppDispatch()
+    const gameMode = useAppSelector(state => state.app.gameMode)
+    const [winner,setWinner]=useState<null | string>(null)
+
+    const startButtonHandler =  () => {
+        const handPhoneNow = randomHand({gameMode})
+        dispatch(setPhoneHand({hand: handPhoneNow}))
+        const result = getWinner()
+        setTimeout(() => setWinner(result), 500)
+    }
 
     return (
         <View style={styles.container}>
@@ -23,13 +36,17 @@ export const GameScreen = () => {
                     <PhoneSVG/>
                 </View>
                 <View style={styles.field}>
-                    <Image source={{uri: Hands.rock}} style={styles.image}/>
+                    {phoneHand
+                        ? <Image source={{uri: phoneHand?.img}} style={styles.image}/>
+                        : <Text style={styles.waitingTitle}> ... waiting for your move</Text>
+                    }
+                    {winner && <Text>{`${winner} win`}</Text>}
                     <Image source={{uri: userHand?.img}} style={styles.image}/>
                 </View>
                 <View style={styles.userBlock}>
                     <View style={styles.userName}>
                         <UserSVG/>
-                        <Text style={styles.user}>player</Text>
+                        <Text style={styles.userTitle}>player</Text>
                     </View>
                     <View style={styles.panel}>
                         <Hand hand={'rock'}/>
@@ -39,7 +56,7 @@ export const GameScreen = () => {
                         <Hand hand={'spock'}/>
                         <Hand hand={'chack'}/>
                     </View>
-                    <TouchableOpacity style={styles.buttonGame}>
+                    <TouchableOpacity style={styles.buttonGame} onPress={startButtonHandler}>
                         <Text style={styles.buttonText}>START</Text>
                     </TouchableOpacity>
                 </View>
@@ -128,7 +145,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#fff'
     },
-    user: {
+    userTitle: {
         fontSize: 16,
         fontWeight: 'bold',
         marginLeft: 10
@@ -136,5 +153,11 @@ const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
+    },
+    waitingTitle: {
+        fontSize: 26,
+        width: '50%',
+        textAlign: 'center'
+
     },
 });

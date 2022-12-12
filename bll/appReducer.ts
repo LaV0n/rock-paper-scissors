@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Hands} from "../assets/images/hands";
 
-type GameModeType= 'normal' | 'geek' | 'cheat'
+export type GameModeType= 'normal' | 'geek' | 'cheat'
 export type HandType='rock' | 'scissors' | 'paper' | 'lizard' | 'spock' | 'chack'
 export type HandDataType={
     name:HandType,
@@ -56,14 +56,22 @@ const slice = createSlice({
             const elem=state.hands.find(h=>h.name===action.payload.hand)
             if(elem){
                 state.userHand=elem
+                state.phoneHand=null
             }
         },
         setGameMode(state,action:PayloadAction<{mode:GameModeType}>){
             state.gameMode=action.payload.mode
             state.userHand=null
+            state.phoneHand=null
+        },
+        setPhoneHand(state,action:PayloadAction<{hand:HandType}>){
+            const elem=state.hands.find(h=>h.name===action.payload.hand)
+            if(elem){
+                state.phoneHand=elem
+            }
         }
     }
 })
 
 export const appReducer = slice.reducer
-export const {setUserHand,setGameMode}=slice.actions
+export const {setUserHand,setGameMode,setPhoneHand}=slice.actions
