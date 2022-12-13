@@ -34,7 +34,7 @@ export const SettingScreen = () => {
                         </Text>
                     }
                     <TouchableOpacity onPress={changeEditModeHandler}>
-                        <TabBarIcon name="pencil" color={'#000'}/>
+                        <TabBarIcon name="pencil" color={'rgba(255,255,255,0.7)'}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.mode}>
@@ -74,7 +74,6 @@ export const SettingScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
         height:'100%'
     },
     block:{
@@ -82,18 +81,21 @@ const styles = StyleSheet.create({
         alignItems:"center",
         justifyContent:'space-between',
         paddingTop:20,
+        backgroundColor: '#3FA796',
     },
     title: {
         fontSize: 20,
         fontWeight: 'bold',
+        color:'rgba(255,255,255,0.7)'
     },
     mode: {
         width: '80%',
         height: 250,
         marginTop: 20,
-        borderWidth: 1,
+        borderWidth: 3,
         borderStyle: 'solid',
-        borderColor: '#000',
+        borderColor: '#2A0944',
+        backgroundColor: 'rgba(42,9,68,0.3)',
         borderRadius:30,
         display: "flex",
         alignItems: 'center',
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     },
     difficult: {
         width: '90%',
-        borderColor: 'rgba(0,0,0,0.2)',
+        borderColor: 'rgba(0,0,0,0.5)',
         borderStyle: 'solid',
         borderWidth: 1,
         borderRadius: 20
@@ -109,18 +111,20 @@ const styles = StyleSheet.create({
     name: {
         textAlign: 'center',
         fontSize: 20,
-        paddingVertical: 5
+        paddingVertical: 5,
+        color:'#fff'
     },
     blockName: {
         textAlign: 'center',
         fontSize: 20,
         fontWeight: 'bold',
+        color:'rgba(255,255,255,0.7)'
     },
     difficultActive: {
         width: '95%',
-        borderColor: '#000',
+        borderColor: '#fff',
         borderStyle: 'solid',
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius: 20
     },
     playerBlock: {
@@ -128,34 +132,43 @@ const styles = StyleSheet.create({
         paddingHorizontal:20,
         width: '80%',
         height: 70,
-        borderWidth: 1,
+        borderWidth: 3,
         borderStyle: 'solid',
-        borderColor: '#000',
+        borderColor: '#2A0944',
         borderRadius:30,
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-between',
-        alignItems:'center'
+        alignItems:'center',
+        backgroundColor: 'rgba(42,9,68,0.3)',
     },
     hiMessage:{
         fontSize: 22,
         fontWeight: 'bold',
+        color:'#fff'
     },
     input:{
         width:'80%',
         borderWidth:1,
+        borderColor:'rgba(255,255,255,0.7)',
+        backgroundColor: 'rgba(42,9,68,0.3)',
         paddingVertical:3,
         paddingHorizontal:5,
-        fontSize:20
+        fontSize:20,
+        color:'#fff'
     },
     rules:{
        width:'80%',
         alignItems:'center',
-        marginTop:10
+        marginVertical:10,
+        backgroundColor: 'rgba(42,9,68,0.3)',
+        borderWidth: 3,
+        borderStyle: 'solid',
+        borderColor: '#2A0944',
+        borderRadius:30,
     },
     rulesImg:{
-        marginTop:10,
-        width:'100%',
-        height:300,
+        width:320,
+        height:320,
     },
 });

@@ -58,12 +58,14 @@ const slice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        setUserHand(state,action:PayloadAction<{hand:HandType}>){
+        setUserHand(state,action:PayloadAction<{hand:HandType | null}>){
             const elem=state.hands.find(h=>h.name===action.payload.hand)
             if(elem){
                 state.userHand=elem
                 state.phoneHand=null
                 state.winner=''
+            }else {
+                state.userHand=null
             }
         },
         setGameMode(state,action:PayloadAction<{mode:GameModeType}>){

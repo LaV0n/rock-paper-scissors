@@ -13,6 +13,7 @@ export const Hand = ({hand}: HandPropsType) => {
     const hands = useAppSelector(state => state.app.hands)
     const gameMode = useAppSelector(state => state.app.gameMode)
     const dispatch = useAppDispatch()
+    const winner= useAppSelector(state => state.app.winner)
 
     let per = hands.find(h => h.name === hand);
     let uri = ''
@@ -28,7 +29,7 @@ export const Hand = ({hand}: HandPropsType) => {
                 ? {display: 'none'}
                 : {display: 'flex'}
         }>
-            <TouchableOpacity style={userHand?.name === hand
+            <TouchableOpacity style={userHand?.name === hand && !winner
                 ? gameMode === 'normal'
                     ? styles.imageActive
                     : gameMode === 'geek' ? styles.imageActiveGeek : styles.imageActiveCheat
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
         height: 100,
         borderStyle: 'solid',
         borderWidth: 5,
-        borderColor: 'red',
+        borderColor: '#A10035',
         borderRadius: 50
     },
     imageGeek: {
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
         height: 70,
         borderStyle: 'solid',
         borderWidth: 5,
-        borderColor: 'red',
+        borderColor: '#A10035',
         borderRadius: 50
     },
     imageCheat: {
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
         height: 60,
         borderStyle: 'solid',
         borderWidth: 5,
-        borderColor: 'red',
+        borderColor: '#A10035',
         borderRadius: 50
     },
 })
