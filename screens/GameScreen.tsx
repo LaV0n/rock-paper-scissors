@@ -6,7 +6,7 @@ import React from "react";
 import {useAppDispatch, useAppSelector} from "../bll/store";
 import {Hand} from '../components/Hand';
 import {setPhoneHand, setWinner} from "../bll/appReducer";
-import { randomHand } from '../common/RandomHand';
+import {randomHand} from '../common/RandomHand';
 import {getWinner} from "../common/getWinner";
 
 export const GameScreen = () => {
@@ -15,15 +15,18 @@ export const GameScreen = () => {
     const phoneHand = useAppSelector(state => state.app.phoneHand)
     const dispatch = useAppDispatch()
     const gameMode = useAppSelector(state => state.app.gameMode)
-    const winner=useAppSelector(state => state.app.winner)
+    const winner = useAppSelector(state => state.app.winner)
+    const userName = useAppSelector(state => state.app.userName)
+    const userCount=useAppSelector(state => state.app.userCount)
+    const phoneCount=useAppSelector(state => state.app.phoneCount)
 
-    const startButtonHandler =   () => {
+    const startButtonHandler = () => {
         const handPhoneNow = randomHand({gameMode})
         dispatch(setPhoneHand({hand: handPhoneNow}))
-        let result=''
-        if(userHand){
-            result = getWinner({userHand:userHand.name,phoneHand:handPhoneNow})
-            dispatch(setWinner({winner:result}))
+        let result = ''
+        if (userHand) {
+            result = getWinner({userHand: userHand.name, phoneHand: handPhoneNow})
+            dispatch(setWinner({winner: result}))
         }
     }
 
@@ -32,7 +35,9 @@ export const GameScreen = () => {
             <View style={styles.header}>
                 <Text style={styles.title}>Player VS Phone</Text>
                 <Text style={styles.title}>Score:</Text>
-                <Text style={styles.title}>0-5</Text>
+                <Text style={styles.title}>
+                    {userCount} - {phoneCount}
+                </Text>
             </View>
             <View style={styles.block}>
                 <View style={styles.phoneImg}>
@@ -49,7 +54,7 @@ export const GameScreen = () => {
                 <View style={styles.userBlock}>
                     <View style={styles.userName}>
                         <UserSVG/>
-                        <Text style={styles.userTitle}>player</Text>
+                        <Text style={styles.userTitle}>{userName}</Text>
                     </View>
                     <View style={styles.panel}>
                         <Hand hand={'rock'}/>

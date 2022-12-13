@@ -14,6 +14,8 @@ type InitialStateType={
     userHand:HandDataType | null
     phoneHand:HandDataType | null
     winner:string
+    userCount:number
+    phoneCount:number
 }
 
 const initialState:InitialStateType = {
@@ -47,7 +49,9 @@ const initialState:InitialStateType = {
     ],
     userHand:null,
     phoneHand:null,
-    winner:''
+    winner:'',
+    userCount:0,
+    phoneCount:0
 }
 
 const slice = createSlice({
@@ -76,9 +80,22 @@ const slice = createSlice({
         },
         setWinner(state,action:PayloadAction<{winner:string}>){
             state.winner=action.payload.winner
-        }
+            if (action.payload.winner==='PHONE'){
+                state.phoneCount++
+            }
+            if(action.payload.winner==='YOU'){
+                state.userCount++
+            }
+            if(action.payload.winner==='CHUCK NORRIS'){
+                state.userCount=0
+                state.phoneCount=0
+            }
+        },
+        setUserName(state,action:PayloadAction<{name:string}>){
+            state.userName=action.payload.name
+        },
     }
 })
 
 export const appReducer = slice.reducer
-export const {setUserHand,setGameMode,setPhoneHand,setWinner}=slice.actions
+export const {setUserHand,setGameMode,setPhoneHand,setWinner,setUserName}=slice.actions
