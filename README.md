@@ -1,7 +1,7 @@
 # Rock Paper Scissors Game
 
 easy mobile game on React Native with 3 difficult level.
-apk file https://github.com/LaV0n/rock-paper-scissors/blob/master/components/rock_game.apk
+#apk file https://github.com/LaV0n/rock-paper-scissors/blob/master/components/rock_game.apk
 
 # 
 Main screen. 
