@@ -1,83 +1,97 @@
-import {HandType, setUserHand} from "../bll/appReducer";
-import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
-import React from "react";
-import {useAppDispatch, useAppSelector} from "../bll/store";
+import { HandType, setUserHand } from '../bll/appReducer'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+import { useAppDispatch, useAppSelector } from '../bll/store'
 
 type HandPropsType = {
-    hand: HandType
+   hand: HandType
 }
 
-export const Hand = ({hand}: HandPropsType) => {
+export const Hand = ({ hand }: HandPropsType) => {
+   const userHand = useAppSelector(state => state.app.userHand)
+   const hands = useAppSelector(state => state.app.hands)
+   const gameMode = useAppSelector(state => state.app.gameMode)
+   const dispatch = useAppDispatch()
+   const winner = useAppSelector(state => state.app.winner)
 
-    const userHand = useAppSelector(state => state.app.userHand)
-    const hands = useAppSelector(state => state.app.hands)
-    const gameMode = useAppSelector(state => state.app.gameMode)
-    const dispatch = useAppDispatch()
-    const winner= useAppSelector(state => state.app.winner)
+   const per = hands.find(h => h.name === hand)
+   let uri = ''
 
-    let per = hands.find(h => h.name === hand);
-    let uri = ''
+   if (per) {
+      uri = per.img
+   }
 
-    if (per) {
-        uri = per.img
-    }
-
-    return (
-        <View style={(gameMode === 'normal' && (hand === 'chuck' || hand === 'lizard' || hand === 'spock'))
-            ? {display: 'none'}
-            : (gameMode === 'geek' && hand === 'chuck')
-                ? {display: 'none'}
-                : {display: 'flex'}
-        }>
-            <TouchableOpacity style={userHand?.name === hand && !winner
-                ? gameMode === 'normal'
-                    ? styles.imageActive
-                    : gameMode === 'geek' ? styles.imageActiveGeek : styles.imageActiveCheat
-                : null}
-                              onPress={() => dispatch(setUserHand({hand: hand}))}>
-                <Image source={{uri: uri}}
-                       style={gameMode === 'normal' ? styles.image :
-                           gameMode === 'geek' ? styles.imageGeek : styles.imageCheat}
-                />
-            </TouchableOpacity>
-        </View>
-    )
+   return (
+      <View
+         style={
+            gameMode === 'normal' && (hand === 'chuck' || hand === 'lizard' || hand === 'spock')
+               ? { display: 'none' }
+               : gameMode === 'geek' && hand === 'chuck'
+               ? { display: 'none' }
+               : { display: 'flex' }
+         }
+      >
+         <TouchableOpacity
+            style={
+               userHand?.name === hand && !winner
+                  ? gameMode === 'normal'
+                     ? styles.imageActive
+                     : gameMode === 'geek'
+                     ? styles.imageActiveGeek
+                     : styles.imageActiveCheat
+                  : null
+            }
+            onPress={() => dispatch(setUserHand({ hand: hand }))}
+         >
+            <Image
+               source={{ uri: uri }}
+               style={
+                  gameMode === 'normal'
+                     ? styles.image
+                     : gameMode === 'geek'
+                     ? styles.imageGeek
+                     : styles.imageCheat
+               }
+            />
+         </TouchableOpacity>
+      </View>
+   )
 }
 const styles = StyleSheet.create({
-    image: {
-        width: 90,
-        height: 90,
-    },
-    imageActive: {
-        width: 100,
-        height: 100,
-        borderStyle: 'solid',
-        borderWidth: 5,
-        borderColor: '#A10035',
-        borderRadius: 50
-    },
-    imageGeek: {
-        width: 60,
-        height: 60,
-    },
-    imageActiveGeek: {
-        width: 70,
-        height: 70,
-        borderStyle: 'solid',
-        borderWidth: 5,
-        borderColor: '#A10035',
-        borderRadius: 50
-    },
-    imageCheat: {
-        width: 50,
-        height: 50,
-    },
-    imageActiveCheat: {
-        width: 60,
-        height: 60,
-        borderStyle: 'solid',
-        borderWidth: 5,
-        borderColor: '#A10035',
-        borderRadius: 50
-    },
+   image: {
+      width: 90,
+      height: 90,
+   },
+   imageActive: {
+      width: 100,
+      height: 100,
+      borderStyle: 'solid',
+      borderWidth: 5,
+      borderColor: '#A10035',
+      borderRadius: 50,
+   },
+   imageGeek: {
+      width: 60,
+      height: 60,
+   },
+   imageActiveGeek: {
+      width: 70,
+      height: 70,
+      borderStyle: 'solid',
+      borderWidth: 5,
+      borderColor: '#A10035',
+      borderRadius: 50,
+   },
+   imageCheat: {
+      width: 50,
+      height: 50,
+   },
+   imageActiveCheat: {
+      width: 60,
+      height: 60,
+      borderStyle: 'solid',
+      borderWidth: 5,
+      borderColor: '#A10035',
+      borderRadius: 50,
+   },
 })
