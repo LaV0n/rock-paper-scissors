@@ -1,22 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Hands } from '../assets/images/hands'
-
-export type GameModeType = 'normal' | 'geek' | 'cheat'
-export type HandType = 'rock' | 'scissors' | 'paper' | 'lizard' | 'spock' | 'chuck'
-export type HandDataType = {
-   name: HandType
-   img: string
-}
-type InitialStateType = {
-   userName: string
-   gameMode: GameModeType
-   hands: HandDataType[]
-   userHand: HandDataType | null
-   phoneHand: HandDataType | null
-   winner: string
-   userCount: number
-   phoneCount: number
-}
+import { GameModeType, HandType, InitialStateType } from '../common/types'
 
 const initialState: InitialStateType = {
    userName: 'Player',

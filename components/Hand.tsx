@@ -1,11 +1,10 @@
-import { HandType, setUserHand } from '../bll/appReducer'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { setUserHand } from '../bll/appReducer'
+import { Image, ImageStyle, StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../bll/store'
-
-type HandPropsType = {
-   hand: HandType
-}
+import { Colors } from '@rneui/base'
+import { Theme, useTheme } from '@rneui/themed'
+import { HandPropsType } from '../common/types'
 
 export const Hand = ({ hand }: HandPropsType) => {
    const userHand = useAppSelector(state => state.app.userHand)
@@ -13,6 +12,8 @@ export const Hand = ({ hand }: HandPropsType) => {
    const gameMode = useAppSelector(state => state.app.gameMode)
    const dispatch = useAppDispatch()
    const winner = useAppSelector(state => state.app.winner)
+   const { theme } = useTheme()
+   const styles = makeStyles(theme)
 
    const per = hands.find(h => h.name === hand)
    let uri = ''
@@ -21,77 +22,71 @@ export const Hand = ({ hand }: HandPropsType) => {
       uri = per.img
    }
 
+   const chooseStyleMode = () => {
+      let style: StyleProp<ImageStyle>
+      switch (gameMode) {
+         case 'normal':
+            style = styles.image
+            break
+         case 'geek':
+            style = styles.imageGeek
+            break
+         case 'cheat':
+            style = styles.imageCheat
+            break
+      }
+      return userHand?.name === hand && !winner ? [style, styles.imageActive] : style
+   }
+   const chooseModeView = (): StyleProp<ViewStyle> => {
+      switch (gameMode) {
+         case 'geek':
+            return hand === 'chuck' && { display: 'none' }
+         case 'normal':
+            return (
+               (hand === 'chuck' || hand === 'lizard' || hand === 'spock') && { display: 'none' }
+            )
+         default:
+            return { display: 'flex' }
+      }
+   }
+
+   const setUserHandHandler = () => {
+      dispatch(setUserHand({ hand }))
+   }
+
    return (
-      <View
-         style={
-            gameMode === 'normal' && (hand === 'chuck' || hand === 'lizard' || hand === 'spock')
-               ? { display: 'none' }
-               : gameMode === 'geek' && hand === 'chuck'
-               ? { display: 'none' }
-               : { display: 'flex' }
-         }
-      >
-         <TouchableOpacity
-            style={
-               userHand?.name === hand && !winner
-                  ? gameMode === 'normal'
-                     ? styles.imageActive
-                     : gameMode === 'geek'
-                     ? styles.imageActiveGeek
-                     : styles.imageActiveCheat
-                  : null
-            }
-            onPress={() => dispatch(setUserHand({ hand: hand }))}
-         >
-            <Image
-               source={{ uri: uri }}
-               style={
-                  gameMode === 'normal'
-                     ? styles.image
-                     : gameMode === 'geek'
-                     ? styles.imageGeek
-                     : styles.imageCheat
-               }
-            />
-         </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={setUserHandHandler} style={chooseModeView()}>
+         <Image source={{ uri: uri }} style={chooseStyleMode()} />
+      </TouchableOpacity>
    )
 }
-const styles = StyleSheet.create({
-   image: {
-      width: 90,
-      height: 90,
-   },
-   imageActive: {
-      width: 100,
-      height: 100,
-      borderStyle: 'solid',
-      borderWidth: 5,
-      borderColor: '#A10035',
-      borderRadius: 50,
-   },
-   imageGeek: {
-      width: 60,
-      height: 60,
-   },
-   imageActiveGeek: {
-      width: 70,
-      height: 70,
-      borderStyle: 'solid',
-      borderWidth: 5,
-      borderColor: '#A10035',
-      borderRadius: 50,
-   },
-   imageCheat: {
-      width: 50,
-      height: 50,
-   },
-   imageActiveCheat: {
-      width: 60,
-      height: 60,
-      borderStyle: 'solid',
-      borderWidth: 5,
-      borderColor: '#A10035',
-      borderRadius: 50,
-   },
-})
+const makeStyles = (colors: { colors: Colors } & Theme) =>
+   StyleSheet.create({
+      image: {
+         width: 90,
+         height: 90,
+         borderStyle: 'solid',
+         borderWidth: 5,
+         borderColor: colors.colors.background,
+         borderRadius: 50,
+      },
+      imageActive: {
+         borderColor: colors.colors.error,
+      },
+      imageGeek: {
+         width: 60,
+         height: 60,
+         borderStyle: 'solid',
+         borderWidth: 4,
+         borderColor: colors.colors.background,
+         borderRadius: 50,
+      },
+      imageCheat: {
+         width: 50,
+         height: 50,
+         borderStyle: 'solid',
+         borderWidth: 3,
+         borderColor: colors.colors.background,
+         borderRadius: 50,
+      },
+   })

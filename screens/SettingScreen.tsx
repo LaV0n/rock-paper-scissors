@@ -13,6 +13,8 @@ import * as React from 'react'
 import { useState } from 'react'
 import { Images } from '../assets/images/images'
 import { TabBarIcon } from '../components/TabBarIcon'
+import { Theme, useTheme } from '@rneui/themed'
+import { Colors } from '@rneui/base'
 
 export const SettingScreen = () => {
    const mode = useAppSelector(state => state.app.gameMode)
@@ -20,6 +22,8 @@ export const SettingScreen = () => {
    const dispatch = useAppDispatch()
    const [edit, setEdit] = useState(false)
    const [value, setValue] = useState(userName)
+   const { theme } = useTheme()
+   const styles = makeStyles(theme)
 
    const changeEditModeHandler = () => {
       if (edit) {
@@ -72,103 +76,101 @@ export const SettingScreen = () => {
    )
 }
 
-const styles = StyleSheet.create({
-   container: {
-      height: '100%',
-   },
-   block: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingTop: 20,
-      backgroundColor: '#3FA796',
-   },
-   title: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: 'rgba(255,255,255,0.7)',
-   },
-   mode: {
-      width: '80%',
-      height: 250,
-      marginTop: 20,
-      borderWidth: 3,
-      borderStyle: 'solid',
-      borderColor: '#2A0944',
-      backgroundColor: 'rgba(42,9,68,0.3)',
-      borderRadius: 30,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-around',
-   },
-   difficult: {
-      width: '90%',
-      borderColor: 'rgba(0,0,0,0.5)',
-      borderStyle: 'solid',
-      borderWidth: 1,
-      borderRadius: 20,
-   },
-   name: {
-      textAlign: 'center',
-      fontSize: 20,
-      paddingVertical: 5,
-      color: '#fff',
-   },
-   blockName: {
-      textAlign: 'center',
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: 'rgba(255,255,255,0.7)',
-   },
-   difficultActive: {
-      width: '95%',
-      borderColor: '#fff',
-      borderStyle: 'solid',
-      borderWidth: 2,
-      borderRadius: 20,
-   },
-   playerBlock: {
-      marginTop: 10,
-      paddingHorizontal: 20,
-      width: '80%',
-      height: 70,
-      borderWidth: 3,
-      borderStyle: 'solid',
-      borderColor: '#2A0944',
-      borderRadius: 30,
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      backgroundColor: 'rgba(42,9,68,0.3)',
-   },
-   hiMessage: {
-      fontSize: 22,
-      fontWeight: 'bold',
-      color: '#fff',
-   },
-   input: {
-      width: '80%',
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.7)',
-      backgroundColor: 'rgba(42,9,68,0.3)',
-      paddingVertical: 3,
-      paddingHorizontal: 5,
-      fontSize: 20,
-      color: '#fff',
-   },
-   rules: {
-      width: '80%',
-      alignItems: 'center',
-      marginVertical: 10,
-      backgroundColor: 'rgba(42,9,68,0.3)',
-      borderWidth: 3,
-      borderStyle: 'solid',
-      borderColor: '#2A0944',
-      borderRadius: 30,
-   },
-   rulesImg: {
-      width: 320,
-      height: 320,
-   },
-})
+const makeStyles = (colors: { colors: Colors } & Theme) =>
+   StyleSheet.create({
+      container: {
+         height: '100%',
+      },
+      block: {
+         alignItems: 'center',
+         justifyContent: 'space-between',
+         paddingTop: 20,
+         backgroundColor: colors.colors.background,
+      },
+      title: {
+         fontSize: 20,
+         fontWeight: 'bold',
+         color: colors.colors.grey0,
+      },
+      mode: {
+         width: '80%',
+         height: 250,
+         marginTop: 20,
+         borderWidth: 3,
+         borderStyle: 'solid',
+         borderColor: colors.colors.primary,
+         backgroundColor: colors.colors.secondary,
+         borderRadius: 30,
+         alignItems: 'center',
+         justifyContent: 'space-around',
+      },
+      difficult: {
+         width: '90%',
+         borderColor: 'rgba(0,0,0,0.5)',
+         borderStyle: 'solid',
+         borderWidth: 1,
+         borderRadius: 20,
+      },
+      name: {
+         textAlign: 'center',
+         fontSize: 20,
+         paddingVertical: 5,
+         color: colors.colors.white,
+      },
+      blockName: {
+         textAlign: 'center',
+         fontSize: 20,
+         fontWeight: 'bold',
+         color: colors.colors.grey0,
+      },
+      difficultActive: {
+         width: '95%',
+         borderColor: colors.colors.white,
+         borderStyle: 'solid',
+         borderWidth: 2,
+         borderRadius: 20,
+      },
+      playerBlock: {
+         marginTop: 10,
+         paddingHorizontal: 20,
+         width: '80%',
+         height: 70,
+         borderWidth: 3,
+         borderStyle: 'solid',
+         borderColor: colors.colors.primary,
+         borderRadius: 30,
+         flexDirection: 'row',
+         justifyContent: 'space-between',
+         alignItems: 'center',
+         backgroundColor: colors.colors.secondary,
+      },
+      hiMessage: {
+         fontSize: 22,
+         fontWeight: 'bold',
+         color: colors.colors.white,
+      },
+      input: {
+         width: '80%',
+         borderWidth: 1,
+         borderColor: colors.colors.grey0,
+         backgroundColor: colors.colors.secondary,
+         paddingVertical: 3,
+         paddingHorizontal: 5,
+         fontSize: 20,
+         color: colors.colors.white,
+      },
+      rules: {
+         width: '80%',
+         alignItems: 'center',
+         marginVertical: 10,
+         backgroundColor: colors.colors.secondary,
+         borderWidth: 3,
+         borderStyle: 'solid',
+         borderColor: colors.colors.primary,
+         borderRadius: 30,
+      },
+      rulesImg: {
+         width: 320,
+         height: 320,
+      },
+   })

@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import * as React from 'react'
-import { GameScreen } from '../screens/GameScreen'
+import { GameScreen } from '../screens/GameScreen/GameScreen'
 import { RootTabParamList } from '../common/types'
 import { SettingScreen } from '../screens/SettingScreen'
 import { TabBarIcon } from '../components/TabBarIcon'
