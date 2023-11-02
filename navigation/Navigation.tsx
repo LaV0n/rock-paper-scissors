@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import * as React from 'react'
 import { GameScreen } from '../screens/GameScreen/GameScreen'
 import { RootTabParamList } from '../common/types'
-import { SettingScreen } from '../screens/SettingScreen'
+import { SettingScreen } from '../screens/SettingScreen/SettingScreen'
 import { TabBarIcon } from '../components/TabBarIcon'
 import { useTheme } from '@rneui/themed'
 
