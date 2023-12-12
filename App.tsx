@@ -1,22 +1,16 @@
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
-import {Provider} from "react-redux";
-import {store} from "./bll/store";
+import { Provider } from 'react-redux'
+import { store } from './bll/store'
+import * as React from 'react'
+import { Navigation } from './navigation/Navigation'
+import { ThemeProvider } from '@rneui/themed'
+import { theme } from './common/theme'
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-        <Provider store={store}>
-          <SafeAreaProvider>
-            <Navigation colorScheme={colorScheme} />
-          </SafeAreaProvider>
-        </Provider>
-    );  }
+   return (
+      <Provider store={store}>
+         <ThemeProvider theme={theme}>
+            <Navigation />
+         </ThemeProvider>
+      </Provider>
+   )
 }
