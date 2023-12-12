@@ -10,26 +10,32 @@ export const UserName = () => {
    const { theme } = useTheme()
    const styles = makeStyles(theme)
    const userName = useAppSelector(state => state.app.userName)
-   const [edit, setEdit] = useState(false)
+   const [isEdit, setIsEdit] = useState(false)
    const [value, setValue] = useState(userName)
    const dispatch = useAppDispatch()
 
    const changeEditModeHandler = () => {
-      if (edit) {
+      if (isEdit) {
          dispatch(setUserName({ name: value }))
       }
-      setEdit(!edit)
+      setIsEdit(!isEdit)
    }
 
    return (
       <View style={styles.playerBlock}>
-         {edit ? (
-            <TextInput value={value} onChangeText={setValue} style={styles.input} />
+         {isEdit ? (
+            <TextInput
+               value={value}
+               onChangeText={setValue}
+               style={styles.input}
+               autoFocus={true}
+               onEndEditing={changeEditModeHandler}
+            />
          ) : (
-            <Text style={styles.hiMessage}>{`Hi ${userName}!`}</Text>
+            <Text style={styles.hiMessage}>{`Hi ${userName} !`}</Text>
          )}
          <TouchableOpacity onPress={changeEditModeHandler}>
-            <TabBarIcon name={edit ? 'save' : 'pencil'} focused={false} />
+            <TabBarIcon name={isEdit ? 'save' : 'pencil'} focused={false} />
          </TouchableOpacity>
       </View>
    )
